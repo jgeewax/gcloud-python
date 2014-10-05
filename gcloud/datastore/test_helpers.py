@@ -20,16 +20,16 @@ class Test_get_protobuf_attribute_and_value(unittest2.TestCase):
         self.assertEqual(value / 1000000, calendar.timegm(utc.timetuple()))
         self.assertEqual(value % 1000000, 4375)
 
-    def test_datetime_w_zone(self):
+    def test_datetime_with_timezone(self):
         import calendar
         import datetime
         import pytz
 
-        utc = datetime.datetime(2014, 9, 16, 10, 19, 32, 4375, pytz.utc)
-        name, value = self._callFUT(utc)
+        time_value = datetime.datetime(2014, 9, 16, 10, 19, 32, 4375, pytz.utc)
+        name, value = self._callFUT(time_value)
         self.assertEqual(name, 'timestamp_microseconds_value')
-        self.assertEqual(value / 1000000, calendar.timegm(utc.timetuple()))
-        self.assertEqual(value % 1000000, 4375)
+        self.assertEqual(value / 10**6, calendar.timegm(time_value.timetuple()))
+        self.assertEqual(value % 10**6, 4375)  # Microseconds.
 
     def test_key(self):
         from gcloud.datastore.dataset import Dataset
